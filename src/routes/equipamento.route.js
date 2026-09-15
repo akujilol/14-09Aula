@@ -1,10 +1,9 @@
-const express = require('express');
-const EquipamentoService = require('../services/equipamentoService');
+import express from 'express';
+import { equipamentoService } from '../services/equipamento.service.js';
 
-const router = express.Router();
-const equipamentoService = new EquipamentoService();
+export const equipRouter = express.Router();
 
-router.get('/', async (req, res) => {
+equipRouter.get('/', async (req, res) => {
   try {
     const equipamentos = await equipamentoService.listarTodos();
     res.json(equipamentos);
@@ -12,8 +11,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ mensagem: 'Erro ao listar equipamentos' });
   }
 });
-
-router.get('/:id', async (req, res) => {
+equipRouter.get('/:id', async (req, res) => {
   try {
     const equipamento = await equipamentoService.buscarPorId(req.params.id);
     if (!equipamento) {
@@ -24,8 +22,7 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ mensagem: 'Erro ao buscar equipamento' });
   }
 });
-
-router.post('/', async (req, res) => {
+equipRouter.post('/', async (req, res) => {
   try {
     const { nome, tipo, disponivel } = req.body;
     if (!nome) {
@@ -37,9 +34,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ mensagem: 'Erro ao cadastrar equipamento' });
   }
 });
-
-
-router.patch('/:id/disponibilidade', async (req, res) => {
+equipRouter.patch('/:id/disponibilidade', async (req, res) => {
   try {
     const { disponivel } = req.body;
     if (typeof disponivel !== 'boolean') {
@@ -54,5 +49,3 @@ router.patch('/:id/disponibilidade', async (req, res) => {
     res.status(500).json({ mensagem: 'Erro ao atualizar disponibilidade' });
   }
 });
-
-module.exports = router;

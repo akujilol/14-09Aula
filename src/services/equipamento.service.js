@@ -1,9 +1,9 @@
-const pool = require('../db');
+import { pool } from "../database/db.js"
 
 class EquipamentoService {
   async listarTodos() {
     const { rows } = await pool.query(
-      'SELECT id, nome, tipo, disponivel FROM equipamentos ORDER BY id'
+      "SELECT * FROM equipamentos"
     );
     return rows;
   }
@@ -15,7 +15,6 @@ class EquipamentoService {
     );
     return rows[0] ?? null;
   }
-
   async cadastrar({ nome, tipo, disponivel = true }) {
     const { rows } = await pool.query(
       `INSERT INTO equipamentos (nome, tipo, disponivel)
@@ -25,7 +24,6 @@ class EquipamentoService {
     );
     return rows[0];
   }
-
   async atualizarDisponibilidade(id, disponivel) {
     const { rows } = await pool.query(
       `UPDATE equipamentos
@@ -38,4 +36,4 @@ class EquipamentoService {
   }
 }
 
-module.exports = EquipamentoService;
+export const equipamentoService = new EquipamentoService()

@@ -1,10 +1,9 @@
-
-const express = require('express');
-const equipamentoRoutes = require('./routes/equipamentoRoutes');
+import express from 'express';
+import { equipRouter } from './routes/equipamento.route.js';
 
 const app = express();
 app.use(express.json());
-app.use('/equipamentos', equipamentoRoutes);
+app.use('/equipamentos', equipRouter);
 
 const PORTA = process.env.PORT || 3000;
 app.listen(PORTA, () => {
